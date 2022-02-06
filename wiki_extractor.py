@@ -1,11 +1,12 @@
 import json
+import argparse
 from googlesearch import search
 import requests
 from bs4 import BeautifulSoup
 import re
 
 
-def wiki_extractor(query, n):
+def wiki_extractor(query, n, output_filename):
   output = dict()
   res = list()
   query =query +' wikipedia' #For better search results
@@ -46,10 +47,19 @@ def wiki_extractor(query, n):
     else:
       print("Url not needed")
       
-  out_file = open("wiki_extracted.json", "w")  
+  out_file = open(output_filename+".json", "w")  
   json.dump(res, out_file, indent = 6) 
   out_file.close() 
 
-query = input("Enter your search query: ")
-wiki_extractor(query)
+ap = argparse.ArgumentParser()
+ap.add_argument("-k", "--keyword", required=True,
+	help="type your query to search")
+ap.add_argument("-n", "--num_urls",type=int, required=True,
+	help="number of urls to give as a result")
+ap.add_argument("-o", "--output", required=True,
+	help="output json file name")
+args = vars(ap.parse_args())
+
+
+wiki_extractor(args['keyword'],args['num_urls'],args['output'])
   
