@@ -2,6 +2,7 @@ from urllib.parse import urlparse
 from urllib.request import urlopen
 import urllib.request 
 import requests
+import json
 from bs4 import BeautifulSoup
 import io
 from PyPDF2 import PdfFileReader
@@ -62,6 +63,13 @@ def pdf_extractor():
             break
       res.append(out_dict)
       out_dict = dict()
+			
+	out_file = open("pdf_extract.json", "w")  
+	json.dump(res, out_file, indent = 6) 
+	out_file.close()
+
+pdf_extractor()
+
       
   
         
